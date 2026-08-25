@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderForge.Orders", "src\ba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderForge.Payments", "src\backend\OrderForge.Payments\OrderForge.Payments.csproj", "{C87F8351-EF1E-430A-75B5-E827AAA9D268}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderForge.Contracts", "OrderForge.Contracts\OrderForge.Contracts.csproj", "{1DD3DA55-8B69-4833-9597-D53E45D3D813}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderForge.Contracts", "src\backend\OrderForge.Contracts\OrderForge.Contracts.csproj", "{CD73392E-C22D-4F7E-D95B-DC29D6A7D2CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{C87F8351-EF1E-430A-75B5-E827AAA9D268}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C87F8351-EF1E-430A-75B5-E827AAA9D268}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C87F8351-EF1E-430A-75B5-E827AAA9D268}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1DD3DA55-8B69-4833-9597-D53E45D3D813}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DD3DA55-8B69-4833-9597-D53E45D3D813}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DD3DA55-8B69-4833-9597-D53E45D3D813}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DD3DA55-8B69-4833-9597-D53E45D3D813}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD73392E-C22D-4F7E-D95B-DC29D6A7D2CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD73392E-C22D-4F7E-D95B-DC29D6A7D2CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD73392E-C22D-4F7E-D95B-DC29D6A7D2CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD73392E-C22D-4F7E-D95B-DC29D6A7D2CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
