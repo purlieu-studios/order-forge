@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OrderForge.Contracts\OrderForge.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>
