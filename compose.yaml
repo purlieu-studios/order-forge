@@ -17,7 +17,6 @@ services:
               timeout: 5s
               retries: 10
               start_period: 10s
-
     inventory-db:
           image: postgres:18.6-alpine3.24
           environment:
@@ -34,6 +33,23 @@ services:
               timeout: 5s
               retries: 10
               start_period: 10s
+    payments-db:
+          image: postgres:18.6-alpine3.24
+          environment:
+              POSTGRES_DB: orderforge_payments
+              POSTGRES_USER: orderforge_payments
+              POSTGRES_PASSWORD: "${PAYMENTS_DB_PASSWORD}"
+          ports:
+              - "127.0.0.1:5434:5432"
+          volumes:
+              - payments-db-data:/var/lib/postgresql
+          healthcheck:
+              test: ["CMD-SHELL", "pg_isready -U orderforge_payments -d orderforge_payments"]
+              interval: 5s
+              timeout: 5s
+              retries: 10
+              start_period: 10s
 volumes:
     orders-db-data:
     inventory-db:
+    payments-db:
