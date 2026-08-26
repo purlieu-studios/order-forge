@@ -51,5 +51,5 @@ services:
               start_period: 10s
 volumes:
     orders-db-data:
-    inventory-db:
-    payments-db:
+    inventory-db-data:
+    payments-db-data:
