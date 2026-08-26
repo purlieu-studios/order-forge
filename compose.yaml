@@ -18,5 +18,22 @@ services:
               retries: 10
               start_period: 10s
 
+    inventory-db:
+          image: postgres:18.6-alpine3.24
+          environment:
+              POSTGRES_DB: orderforge_inventory
+              POSTGRES_USER: orderforge_inventory
+              POSTGRES_PASSWORD: "${INVENTORY_DB_PASSWORD}"
+          ports:
+              - "127.0.0.1:5433:5432"
+          volumes:
+              - inventory-db-data:/var/lib/postgresql
+          healthcheck:
+              test: ["CMD-SHELL", "pg_isready -U orderforge_inventory -d orderforge_inventory"]
+              interval: 5s
+              timeout: 5s
+              retries: 10
+              start_period: 10s
 volumes:
     orders-db-data:
+    inventory-db:

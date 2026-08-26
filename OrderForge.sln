@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderForge.Payments", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderForge.Contracts", "src\backend\OrderForge.Contracts\OrderForge.Contracts.csproj", "{CD73392E-C22D-4F7E-D95B-DC29D6A7D2CD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{08F720C7-FCD3-4949-8FC4-4CF148810395}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
