@@ -49,7 +49,25 @@ services:
               timeout: 5s
               retries: 10
               start_period: 10s
+    rabbitmq:
+          image: rabbitmq:4.3.5-management
+          environment:
+              RABBITMQ_DEFAULT_USER: orderforge
+              RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASSWORD}"
+              RABBITMQ_DEFAULT_VHOST: orderforge
+          ports:
+              - "127.0.0.1:5672:5672"
+              - "127.0.0.1:15672:15672"
+          volumes:
+              - rabbitmq-data:/var/lib/rabbitmq
+          healthcheck:
+              test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+              interval: 5s
+              timeout: 5s
+              retries: 10
+              start_period: 20s
 volumes:
     orders-db-data:
     inventory-db-data:
     payments-db-data:
+    rabbitmq-data:
