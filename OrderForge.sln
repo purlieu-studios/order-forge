@@ -16,10 +16,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{08F720C7-FCD3-4949-8FC4-4CF148810395}"
 	ProjectSection(SolutionItems) = preProject
 		.env = .env
+		scripts\add-migration.ps1 = scripts\add-migration.ps1
 		compose.yaml = compose.yaml
 		Directory.Packages.props = Directory.Packages.props
 		dotnet-tools.json = dotnet-tools.json
-		kafka-init.ps1 = kafka-init.ps1
+		scripts\kafka-init.ps1 = scripts\kafka-init.ps1
 	EndProjectSection
 EndProject
 Global
