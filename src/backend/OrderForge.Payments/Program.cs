@@ -1,6 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using OrderForge;
-
 var builder = WebApplication.CreateBuilder(args);
 
 var paymentsDatabase = builder.Configuration.GetConnectionString("PaymentsDatabase")
