@@ -1,5 +1,5 @@
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddValidation();
 var inventoryDatabase = builder.Configuration.GetConnectionString("InventoryDatabase")
     ?? throw new InvalidOperationException(
         "Connection string 'InventoryDatabase' is not configured.");

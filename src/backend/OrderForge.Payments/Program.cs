@@ -1,5 +1,5 @@
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddValidation();
 var paymentsDatabase = builder.Configuration.GetConnectionString("PaymentsDatabase")
     ?? throw new InvalidOperationException(
         "Connection string 'PaymentsDatabase' is not configured.");
