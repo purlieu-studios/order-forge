@@ -99,6 +99,30 @@ services:
               retries: 10
               start_period: 30s
           stop_grace_period: 30s
+    kafka-init:
+          image: apache/kafka:4.3.1
+          depends_on:
+              kafka:
+                  condition: service_healthy
+          entrypoint: ["/bin/sh", "-c"]
+          command: >
+              /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:19092
+              --create --if-not-exists
+              --topic orderforge.orders.events
+              --partitions 3
+              --replication-factor 1
+              &&
+              /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:19092
+              --create --if-not-exists
+              --topic orderforge.inventory.events
+              --partitions 3
+              --replication-factor 1
+              &&
+              /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:19092
+              --create --if-not-exists
+              --topic orderforge.payments.events
+              --partitions 3
+              --replication-factor 1
 volumes:
     orders-db-data:
     inventory-db-data:
