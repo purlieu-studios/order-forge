@@ -27,4 +27,25 @@ public sealed class OrdersController(IHttpClientFactory httpClientFactory) : Con
             Content = content
         };
     }
+
+    [HttpGet("{id:long}")]
+    public async Task<IActionResult> GetById(
+        long id,
+        CancellationToken cancellationToken)
+    {
+        var client = httpClientFactory.CreateClient("Orders");
+
+        using var response = await client.GetAsync(
+            $"orders/{id}",
+            cancellationToken);
+
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        return new ContentResult
+        {
+            StatusCode = (int)response.StatusCode,
+            ContentType = response.Content.Headers.ContentType?.MediaType ?? "application/json",
+            Content = content
+        };
+    }
 }
