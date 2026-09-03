@@ -4,45 +4,62 @@ OrderForge is a learning-focused order-processing system designed to demonstrate
 
 ## End goal
 
-The React client sends an order to the .NET Gateway. The Gateway is the public HTTP boundary and forwards the request to the Orders service. Orders owns the order lifecycle and its data. Inventory and Payments each own their own data and process the order workflow independently. A correlation ID follows the order through HTTP requests, messages, logs, and traces so the entire flow can be observed.
+The React client sends requests to the .NET Gateway. The Gateway is the authenticated public HTTP boundary and forwards order requests to Orders and stock-management requests to Inventory. Orders owns the order lifecycle and its data. Inventory and Payments each own their own data and process the order workflow independently. A correlation ID follows the order through HTTP requests, messages, logs, and traces so the entire flow can be observed.
 
-## Architecture
+## End-to-end flow
 
 ```mermaid
-flowchart LR
-    Client["React + TypeScript<br/>Browser"] -->|HTTP + correlation ID| Gateway[".NET Gateway<br/>Public boundary"]
-    Gateway -->|HTTP| Orders["Orders service<br/>Lifecycle + orchestration"]
-    Orders --> OrdersDb[("Orders database<br/>PostgreSQL / Azure SQL")]
-    Orders -->|Outbox command| Rabbit["RabbitMQ<br/>Internal workflow"]
-    Rabbit -->|Reserve stock| Inventory["Inventory service"]
-    Rabbit -->|Authorize payment| Payments["Payments service"]
-    Inventory --> InventoryDb[("Inventory database")]
-    Payments --> PaymentsDb[("Payments database")]
-    Inventory -->|Reservation result| Rabbit
-    Payments -->|Payment result| Rabbit
-    Rabbit -->|Workflow result| Orders
-    Orders -->|Integration events| ServiceBus["Azure Service Bus"]
-    ServiceBus --> Functions["Azure Functions"]
-    ServiceBus --> LogicApps["Azure Logic Apps"]
-    Orders -.->|Domain events| Kafka["Apache Kafka<br/>Activity • audit • analytics"]
-    Inventory -.->|Domain events| Kafka
-    Payments -.->|Domain events| Kafka
+sequenceDiagram
+    actor Client as React client
+    participant Entra as Microsoft Entra ID
+    participant Gateway as .NET Gateway
+    participant Orders as Orders service
+    participant OrdersDb as Orders database
+    participant Rabbit as RabbitMQ
+    participant Inventory as Inventory service
+    participant InventoryDb as Inventory database
+    participant Payments as Payments service
+    participant PaymentsDb as Payments database
+    participant Bus as Azure Service Bus
+    participant Functions as Azure Functions
+    participant Logic as Azure Logic Apps
+    participant Kafka as Apache Kafka
 
-    classDef client fill:#e0ecff,stroke:#2563eb,color:#0f172a;
-    classDef boundary fill:#dbeafe,stroke:#1d4ed8,color:#0f172a;
-    classDef service fill:#dcfce7,stroke:#15803d,color:#0f172a;
-    classDef database fill:#f1f5f9,stroke:#475569,color:#0f172a;
-    classDef messaging fill:#ffedd5,stroke:#c2410c,color:#0f172a;
-    classDef cloud fill:#cffafe,stroke:#0e7490,color:#0f172a;
-    classDef stream fill:#ede9fe,stroke:#6d28d9,color:#0f172a;
+    Client->>Entra: Sign in
+    Entra-->>Client: Access token
+    Note over Client,Gateway: Requests include the bearer token and correlation ID
 
-    class Client client;
-    class Gateway boundary;
-    class Orders,Inventory,Payments service;
-    class OrdersDb,InventoryDb,PaymentsDb database;
-    class Rabbit messaging;
-    class ServiceBus,Functions,LogicApps cloud;
-    class Kafka stream;
+    Client->>Gateway: Stock-management request
+    Gateway->>Inventory: HTTP stock operation
+    Inventory->>InventoryDb: Update stock
+    Inventory-->>Gateway: Stock result
+    Gateway-->>Client: Stock result
+
+    Client->>Gateway: Submit order
+    Gateway->>Orders: Create order
+    Orders->>OrdersDb: Save order and outbox message
+    Orders-->>Gateway: Initial order status
+    Gateway-->>Client: Initial status and correlation ID
+
+    Orders->>Rabbit: Publish workflow command
+    par Inventory reservation
+        Rabbit->>Inventory: Reserve stock
+        Inventory->>InventoryDb: Update reservation
+        Inventory-->>Rabbit: Reservation result
+    and Payment authorization
+        Rabbit->>Payments: Authorize payment
+        Payments->>PaymentsDb: Record authorization
+        Payments-->>Rabbit: Payment result
+    end
+
+    Rabbit-->>Orders: Workflow results
+    Orders->>OrdersDb: Record final outcome
+    Orders->>Bus: Publish integration event
+    Bus-->>Functions: Reconciliation, expiry, and projections
+    Bus-->>Logic: Customer and operations notifications
+    Orders-->>Kafka: Domain event
+    Inventory-->>Kafka: Domain event
+    Payments-->>Kafka: Domain event
 ```
 
 The intended workflow is:
