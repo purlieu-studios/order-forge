@@ -1,5 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+builder.Services.AddOpenApi();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>
@@ -25,6 +26,12 @@ builder.Services.AddHttpClient("Inventory", client => client.BaseAddress = new U
 
 var app = builder.Build();
 app.UseCors("Frontend");
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
+
 app.MapControllers();
 
 app.Run();
