@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-[ApiController]
+﻿[ApiController]
 [Route("orders")]
 public sealed class OrdersController(OrdersDbContext database) : ControllerBase
 {
