@@ -17,6 +17,14 @@ public sealed class OrdersController(IHttpClientFactory httpClientFactory) : Con
             request,
             cancellationToken);
 
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<CreateOrderResponse>(
+                cancellationToken);
+
+            return StatusCode((int)response.StatusCode, result);
+        }
+
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
 
         return new ContentResult
