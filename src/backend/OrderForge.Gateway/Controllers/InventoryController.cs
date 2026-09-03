@@ -1,5 +1,4 @@
 using System.Net.Http.Json;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -8,7 +7,7 @@ public sealed class InventoryController(IHttpClientFactory httpClientFactory) : 
 {
     [HttpPost("stock")]
     public async Task<IActionResult> AddStock(
-        [FromBody] JsonElement request,
+        AddStockRequest request,
         CancellationToken cancellationToken)
     {
         var client = httpClientFactory.CreateClient("Inventory");
