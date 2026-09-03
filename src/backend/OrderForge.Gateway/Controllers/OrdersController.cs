@@ -1,5 +1,4 @@
 using System.Net.Http.Json;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -8,7 +7,7 @@ public sealed class OrdersController(IHttpClientFactory httpClientFactory) : Con
 {
     [HttpPost]
     public async Task<IActionResult> Create(
-        [FromBody] JsonElement request,
+        CreateOrderRequest request,
         CancellationToken cancellationToken)
     {
         var client = httpClientFactory.CreateClient("Orders");
