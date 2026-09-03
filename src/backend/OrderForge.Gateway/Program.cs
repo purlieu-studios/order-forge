@@ -1,5 +1,15 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 var ordersBaseUrl = builder.Configuration["Services:Orders:BaseUrl"]
      ?? throw new InvalidOperationException(
@@ -14,6 +24,7 @@ var inventoryBaseUrl = builder.Configuration["Services:Inventory:BaseUrl"]
 builder.Services.AddHttpClient("Inventory", client => client.BaseAddress = new Uri(inventoryBaseUrl));
 
 var app = builder.Build();
+app.UseCors("Frontend");
 app.MapControllers();
 
 app.Run();
