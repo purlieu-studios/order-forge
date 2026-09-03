@@ -481,5 +481,20 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
+# Frontend build and tooling
+dist/
+dist-ssr/
+coverage/
+*.local
+*.tsbuildinfo
+.eslintcache
+*.sln
+*.sw?
+playwright-report/
+__screenshots__/
+*.timestamp-*-*.mjs
+/src/frontend/cypress/videos/
+/src/frontend/cypress/screenshots/
+
 /AGENTS.md
 .env
