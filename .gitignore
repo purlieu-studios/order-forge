@@ -503,6 +503,7 @@ __screenshots__/
 *.timestamp-*-*.mjs
 /src/frontend/cypress/videos/
 /src/frontend/cypress/screenshots/
+/src/frontend/src/generated/
 
 /AGENTS.md
 .env
