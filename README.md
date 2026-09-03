@@ -27,6 +27,22 @@ flowchart LR
     Orders -.->|Domain events| Kafka["Apache Kafka<br/>Activity • audit • analytics"]
     Inventory -.->|Domain events| Kafka
     Payments -.->|Domain events| Kafka
+
+    classDef client fill:#e0ecff,stroke:#2563eb,color:#0f172a;
+    classDef boundary fill:#dbeafe,stroke:#1d4ed8,color:#0f172a;
+    classDef service fill:#dcfce7,stroke:#15803d,color:#0f172a;
+    classDef database fill:#f1f5f9,stroke:#475569,color:#0f172a;
+    classDef messaging fill:#ffedd5,stroke:#c2410c,color:#0f172a;
+    classDef cloud fill:#cffafe,stroke:#0e7490,color:#0f172a;
+    classDef stream fill:#ede9fe,stroke:#6d28d9,color:#0f172a;
+
+    class Client client;
+    class Gateway boundary;
+    class Orders,Inventory,Payments service;
+    class OrdersDb,InventoryDb,PaymentsDb database;
+    class Rabbit messaging;
+    class ServiceBus,Functions,LogicApps cloud;
+    class Kafka stream;
 ```
 
 The intended workflow is:
