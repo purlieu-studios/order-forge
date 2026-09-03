@@ -1,4 +1,3 @@
-using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -6,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 public sealed class OrdersController(IHttpClientFactory httpClientFactory) : ControllerBase
 {
     [HttpPost]
+    [ProducesResponseType(typeof(CreateOrderResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create(
         CreateOrderRequest request,
         CancellationToken cancellationToken)
@@ -36,6 +37,8 @@ public sealed class OrdersController(IHttpClientFactory httpClientFactory) : Con
     }
 
     [HttpGet("{id:long}")]
+    [ProducesResponseType(typeof(GetOrderResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(
         long id,
         CancellationToken cancellationToken)

@@ -1,4 +1,3 @@
-using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -6,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 public sealed class InventoryController(IHttpClientFactory httpClientFactory) : ControllerBase
 {
     [HttpPost("stock")]
+    [ProducesResponseType(typeof(AddStockResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> AddStock(
         AddStockRequest request,
         CancellationToken cancellationToken)
@@ -16,6 +17,14 @@ public sealed class InventoryController(IHttpClientFactory httpClientFactory) : 
             "inventory/stock",
             request,
             cancellationToken);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<AddStockResponse>(
+                cancellationToken);
+
+            return StatusCode((int)response.StatusCode, result);
+        }
 
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
 
