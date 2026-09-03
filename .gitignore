@@ -482,12 +482,20 @@ $RECYCLE.BIN/
 *.swp
 
 # Frontend build and tooling
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 dist/
 dist-ssr/
 coverage/
 *.local
 *.tsbuildinfo
 .eslintcache
+*.ntvs*
+*.njsproj
 *.sln
 *.sw?
 playwright-report/
